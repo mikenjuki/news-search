@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
@@ -15,8 +14,6 @@ import {
 } from "../components/ui/sheet";
 
 export default function Navbar() {
-  const [showFilters, setShowFilters] = useState(false);
-
   const location = useLocation();
   const navigate = useNavigate();
   const isResultsPage = location.pathname === "/results";
@@ -65,7 +62,7 @@ export default function Navbar() {
               <SheetHeader>
                 <SheetTitle>Filter Results</SheetTitle>
               </SheetHeader>
-              <FiltersPanel onClose={() => setShowFilters(false)} />
+              <FiltersPanel onClose={() => {}} />
             </SheetContent>
           </Sheet>
         </div>

@@ -8,8 +8,6 @@ import Navbar from "../ui/Navbar";
 import NoResults from "../assets/no_results.svg";
 import ResultItem from "../ui/ResultItem";
 
-
-
 type Article = {
   title: string;
   description: string;
