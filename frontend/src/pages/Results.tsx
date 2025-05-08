@@ -8,6 +8,8 @@ import Navbar from "../ui/Navbar";
 import NoResults from "../assets/no_results.svg";
 import ResultItem from "../ui/ResultItem";
 
+
+
 type Article = {
   title: string;
   description: string;
@@ -22,20 +24,36 @@ export default function Results() {
   // const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
 
-  const { query, lang, country, setQuery, setLang, setCountry } =
-    useSearchStore();
+  const {
+    query,
+    lang,
+    country,
+    setQuery,
+    setLang,
+    setCountry,
+    from,
+    to,
+    setFrom,
+    setTo,
+  } = useSearchStore();
   const [results, setResults] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState<number>(0);
 
   //handles the store
   useEffect(() => {
-    if (location.pathname === "/results") {
-      setQuery(queryParams.get("q") || "");
-      setLang(queryParams.get("lang") || "en");
-      setCountry(queryParams.get("country") || "us");
-    }
-  }, []);
+    const q = queryParams.get("q") || "";
+    const l = queryParams.get("lang") || "en";
+    const c = queryParams.get("country") || "us";
+    const f = queryParams.get("from") || "";
+    const t = queryParams.get("to") || "";
+
+    setQuery(q);
+    setLang(l);
+    setCountry(c);
+    setFrom(f);
+    setTo(t);
+  }, [location.search]);
 
   //this fetches stuff from the back end
   useEffect(() => {
@@ -43,7 +61,9 @@ export default function Results() {
       setLoading(true);
       try {
         const res = await fetch(
-          `http://localhost:5000/search?q=${query}&lang=${lang}&country=${country}`
+          `http://localhost:5000/search?q=${query}&lang=${lang}&country=${country}` +
+            (from ? `&from=${from}` : "") +
+            (to ? `&to=${to}` : "")
         );
         const data = await res.json();
         setResults(data.articles || []);
@@ -55,7 +75,7 @@ export default function Results() {
     };
 
     if (query) fetchNews();
-  }, [query, lang, country]);
+  }, [query, lang, country, from, to]);
 
   return (
     <>

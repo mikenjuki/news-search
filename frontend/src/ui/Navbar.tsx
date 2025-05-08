@@ -1,10 +1,22 @@
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { useSearchStore } from "../store/search_store";
 import { ModeToggle } from "./ModeToggle";
+import FiltersPanel from "./Filterspanel";
+
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "../components/ui/sheet";
 
 export default function Navbar() {
+  const [showFilters, setShowFilters] = useState(false);
+
   const location = useLocation();
   const navigate = useNavigate();
   const isResultsPage = location.pathname === "/results";
@@ -17,7 +29,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full px-2 py-4 flex items-center justify-between bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800">
+    <nav className="z-50 w-full px-2 py-4 flex items-center justify-between bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800">
       <div
         className="text-xl font-bold cursor-pointer"
         onClick={() => navigate("/")}
@@ -42,9 +54,20 @@ export default function Navbar() {
           <Button onClick={handleSearch} className="cursor-pointer">
             Search
           </Button>
-          <Button variant="outline" className="cursor-pointer">
-            Filters
-          </Button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline">Filters</Button>
+            </SheetTrigger>
+            <SheetContent
+              side="top"
+              className="top-[70px] max-h-[calc(100vh-70px)] overflow-y-auto"
+            >
+              <SheetHeader>
+                <SheetTitle>Filter Results</SheetTitle>
+              </SheetHeader>
+              <FiltersPanel onClose={() => setShowFilters(false)} />
+            </SheetContent>
+          </Sheet>
         </div>
       )}
 
