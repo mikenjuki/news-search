@@ -11,10 +11,17 @@ def fetch_news(query, lang='en'):
     response = requests.get(url)
     data = response.json()
 
-    return [
-        {
-            'title': article['title'],
-            'url': article['url'],
-            'thumbnail': article.get('image')
-        } for article in data.get('articles', [])
-    ]
+    return {
+        "totalArticles": data.get("totalArticles", 0),
+        "articles": [
+            {
+                "title": article["title"],
+                "description": article.get("description", ""),
+                "url": article["url"],
+                "image": article.get("image"),
+                "publishedAt": article["publishedAt"],
+                "source": article.get("source", {}).get("name", "")
+            }
+            for article in data.get("articles", [])
+        ]
+    }

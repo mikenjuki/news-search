@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { useSearchStore } from "../store/search_store";
 import { Skeleton } from "../components/ui/skeleton";
 import Navbar from "../ui/Navbar";
 
 import NoResults from "../assets/no_results.svg";
+import ResultItem from "../ui/ResultItem";
 
 type Article = {
   title: string;
+  description: string;
   url: string;
-  thumbnail: string | null;
+  image: string | null;
+  publishedAt: string;
+  source: string;
 };
 
 export default function Results() {
@@ -22,6 +26,7 @@ export default function Results() {
     useSearchStore();
   const [results, setResults] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+  const [total, setTotal] = useState<number>(0);
 
   //handles the store
   useEffect(() => {
@@ -41,7 +46,8 @@ export default function Results() {
           `http://localhost:5000/search?q=${query}&lang=${lang}&country=${country}`
         );
         const data = await res.json();
-        setResults(data);
+        setResults(data.articles || []);
+        setTotal(data.totalArticles || 0);
       } catch (error) {
         console.error("Failed to fetch news:", error);
       }
@@ -69,26 +75,20 @@ export default function Results() {
             ))}
           </div>
         ) : (
-          <div className="space-y-6 max-w-3xl mx-auto">
+          <div className="space-y-6 max-w-2xl mx-auto">
             {results.map((item, idx) => (
-              <div key={idx} className="flex gap-4 items-start">
-                {item.thumbnail && (
-                  <img
-                    src={item.thumbnail}
-                    alt="thumb"
-                    className="w-20 h-20 object-cover rounded"
-                  />
-                )}
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 visited:text-purple-700 font-medium hover:underline"
-                >
-                  {item.title}
-                </a>
-              </div>
+              <ResultItem
+                key={idx}
+                title={item.title}
+                url={item.url}
+                description={item.description}
+                image={item.image}
+                source={item.source}
+              />
             ))}
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+              Search Hits: {total.toLocaleString()}
+            </p>
             {results.length === 0 && (
               <div className="flex flex-col items-center justify-center mt-12 text-gray-500 dark:text-gray-400">
                 <img
