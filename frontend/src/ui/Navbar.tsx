@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { useSearchStore } from "../store/search_store";
+import { ModeToggle } from "./ModeToggle";
 
 export default function Navbar() {
   const location = useLocation();
@@ -27,18 +28,28 @@ export default function Navbar() {
       {isResultsPage && (
         <div className="flex flex-1 justify-center gap-2 max-w-3xl px-4">
           <Input
-            placeholder="Search news..."
+            placeholder="You need it, I'll find it"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSearch();
+              }
+            }}
+            className="text-lg"
           />
-          <Button onClick={handleSearch}>Search</Button>
-          <Button variant="outline">Filters</Button>
+          <Button onClick={handleSearch} className="cursor-pointer">
+            Search
+          </Button>
+          <Button variant="outline" className="cursor-pointer">
+            Filters
+          </Button>
         </div>
       )}
 
       <div>
-        <Button variant="ghost">🌙</Button>
+        <ModeToggle />
       </div>
     </nav>
   );

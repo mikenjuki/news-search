@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
 import { useSearchStore } from "../store/search_store";
 import { Skeleton } from "../components/ui/skeleton";
 import Navbar from "../ui/Navbar";
+
+import NoResults from "../assets/no_results.svg";
 
 type Article = {
   title: string;
@@ -12,7 +15,7 @@ type Article = {
 
 export default function Results() {
   const location = useLocation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
 
   const { query, lang, country, setQuery, setLang, setCountry } =
@@ -54,7 +57,7 @@ export default function Results() {
         <Navbar />
       </header>
 
-      <main className="min-h-screen px-4 py-6 bg-white dark:bg-black text-black dark:text-white">
+      <main className="min-h-[70vh] px-4 py-6 bg-white dark:bg-black text-black dark:text-white">
         {/* Results section */}
         {loading ? (
           <div className="space-y-4 max-w-3xl mx-auto">
@@ -87,9 +90,14 @@ export default function Results() {
               </div>
             ))}
             {results.length === 0 && (
-              <p className="text-center text-gray-500 dark:text-gray-400">
-                No results found.
-              </p>
+              <div className="flex flex-col items-center justify-center mt-12 text-gray-500 dark:text-gray-400">
+                <img
+                  src={NoResults}
+                  alt="No results"
+                  className="w-48 h-48 mb-4"
+                />
+                <p>No results found.</p>
+              </div>
             )}
           </div>
         )}
