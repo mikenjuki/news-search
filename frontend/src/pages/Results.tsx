@@ -54,12 +54,14 @@ export default function Results() {
   }, [location.search]);
 
   //this fetches stuff from the back end
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
+
   useEffect(() => {
     const fetchNews = async () => {
       setLoading(true);
       try {
         const res = await fetch(
-          `http://localhost:5000/search?q=${query}&lang=${lang}&country=${country}` +
+          `${backendURL}/search?q=${query}&lang=${lang}&country=${country}` +
             (from ? `&from=${from}` : "") +
             (to ? `&to=${to}` : "")
         );

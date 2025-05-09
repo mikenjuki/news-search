@@ -12,7 +12,6 @@ import {
 import Navbar from "../ui/Navbar";
 
 export default function Home() {
-  // const [country, setCountry] = useState("us"); //&country=${country}
   const navigate = useNavigate();
 
   const { query, setQuery, lang, setLang } = useSearchStore();
