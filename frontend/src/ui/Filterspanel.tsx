@@ -67,7 +67,7 @@ export default function FiltersPanel({ onClose }: FiltersPanelProps) {
             Language
           </label>
           <Select value={lang} onValueChange={setLang}>
-            <SelectTrigger>
+            <SelectTrigger aria-label="Select language">
               <SelectValue placeholder="Language" />
             </SelectTrigger>
             <SelectContent>
@@ -83,7 +83,7 @@ export default function FiltersPanel({ onClose }: FiltersPanelProps) {
             Country
           </label>
           <Select value={country} onValueChange={setCountry}>
-            <SelectTrigger>
+            <SelectTrigger aria-label="Select country">
               <SelectValue placeholder="Country" />
             </SelectTrigger>
             <SelectContent>
@@ -103,6 +103,7 @@ export default function FiltersPanel({ onClose }: FiltersPanelProps) {
               type="date"
               value={from}
               onChange={(e) => setFrom(e.target.value)}
+              aria-label="Filter from date"
             />
           </div>
           <div>
@@ -113,6 +114,7 @@ export default function FiltersPanel({ onClose }: FiltersPanelProps) {
               type="date"
               value={to}
               onChange={(e) => setTo(e.target.value)}
+              aria-label="Filter to date"
             />
           </div>
         </div>

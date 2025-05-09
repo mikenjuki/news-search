@@ -30,7 +30,7 @@ export default function Home() {
     setCountry("us");
     setFrom("");
     setTo("");
-  }, []);
+  }, [setCountry, setFrom, setLang, setQuery, setTo]);
 
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-black">

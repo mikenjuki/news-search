@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSearchStore } from "../store/search_store";
+import { useDebounce } from "use-debounce";
 
 type Article = {
   title: string;
@@ -14,7 +15,7 @@ type Article = {
 export function useFetchNews() {
   const location = useLocation();
   const navigate = useNavigate();
-  const queryParams = new URLSearchParams(location.search);
+  const queryParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
 
   const {
     query,
@@ -35,7 +36,7 @@ export function useFetchNews() {
 
   const backendURL = import.meta.env.VITE_BACKEND_URL;
 
-  // query params in zustand, or redirect if no `q` i added this for ux reasons
+  // parse query params and sync with Zustand
   useEffect(() => {
     const q = queryParams.get("q");
     if (!q) {
@@ -48,17 +49,26 @@ export function useFetchNews() {
     setCountry(queryParams.get("country") || "us");
     setFrom(queryParams.get("from") || "");
     setTo(queryParams.get("to") || "");
-  }, [location.search]);
+  }, [location.search, navigate, queryParams, setCountry, setFrom, setLang, setQuery, setTo]);
 
-  // data from backend
+  // debounce Zustand state values (i added this to prevent multiple api calls)
+  const [debouncedQuery] = useDebounce(query, 400);
+  const [debouncedLang] = useDebounce(lang, 400);
+  const [debouncedCountry] = useDebounce(country, 400);
+  const [debouncedFrom] = useDebounce(from, 400);
+  const [debouncedTo] = useDebounce(to, 400);
+
+  // fetch news using debounced values
   useEffect(() => {
+    if (!debouncedQuery) return;
+
     const fetchNews = async () => {
       setLoading(true);
       try {
         const res = await fetch(
-          `${backendURL}/search?q=${query}&lang=${lang}&country=${country}` +
-            (from ? `&from=${from}` : "") +
-            (to ? `&to=${to}` : "")
+          `${backendURL}/search?q=${debouncedQuery}&lang=${debouncedLang}&country=${debouncedCountry}` +
+            (debouncedFrom ? `&from=${debouncedFrom}` : "") +
+            (debouncedTo ? `&to=${debouncedTo}` : "")
         );
         const data = await res.json();
         setResults(data.articles || []);
@@ -69,8 +79,8 @@ export function useFetchNews() {
       setLoading(false);
     };
 
-    if (query) fetchNews();
-  }, [query, lang, country, from, to]);
+    fetchNews();
+  }, [debouncedQuery, debouncedLang, debouncedCountry, debouncedFrom, debouncedTo, backendURL]);
 
   return { results, loading, total };
 }

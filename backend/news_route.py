@@ -7,49 +7,32 @@ API_KEY = os.getenv('NEWS_API_KEY')
 
 
 def fetch_news(query, lang='en', country='', from_date=None, to_date=None):
-    base_url = f"https://gnews.io/api/v4/search?q={query}&lang={lang}&token={API_KEY}&max=10"
+    if not API_KEY:
+        raise ValueError("Missing NEWS_API_KEY in environment")
 
-    if country:
-        base_url += f"&country={country}"
-
-    if from_date:
-        from_date += "T00:00:00Z"
-        base_url += f"&from={from_date}"
-
-    if to_date:
-        to_date += "T23:59:59Z"
-        base_url += f"&to={to_date}"
-
-    print("DEBUG URL:", base_url)  # debug..**remove**
-
-    response = requests.get(base_url)
-    data = response.json()
-
-    return {
-        "totalArticles": data.get("totalArticles", 0),
-        "articles": [
-            {
-                "title": article["title"],
-                "description": article.get("description", ""),
-                "url": article["url"],
-                "image": article.get("image"),
-                "publishedAt": article["publishedAt"],
-                "source": article.get("source", {}).get("name", "")
-            }
-            for article in data.get("articles", [])
-        ]
+    params = {
+        "q": query,
+        "lang": lang,
+        "token": API_KEY,
+        # "max": 10 # removed this cause i saw gnews limits to 10 already(but can be used for pagination like results of 5)
     }
 
-    base_url = f"https://gnews.io/api/v4/search?q={query}&lang={lang}&token={API_KEY}"
-
     if country:
-        base_url += f"&country={country}"
+        params["country"] = country
     if from_date:
-        base_url += f"&from={from_date}"
+        params["from"] = f"{from_date}T00:00:00Z"
     if to_date:
-        base_url += f"&to={to_date}"
+        params["to"] = f"{to_date}T23:59:59Z"
 
-    response = requests.get(base_url)
+    response = requests.get("https://gnews.io/api/v4/search", params=params)
+
+    if response.status_code != 200:
+        print("Failed API request:", response.status_code, response.text)
+        return {
+            "totalArticles": 0,
+            "articles": []
+        }
+
     data = response.json()
 
     return {
