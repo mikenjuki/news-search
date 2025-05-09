@@ -10,16 +10,27 @@ import {
   SelectItem,
 } from "../components/ui/select";
 import Navbar from "../ui/Navbar";
+import { useEffect } from "react";
 
 export default function Home() {
   const navigate = useNavigate();
 
-  const { query, setQuery, lang, setLang } = useSearchStore();
+  const { query, setQuery, lang, setLang, setCountry, setFrom, setTo } =
+    useSearchStore();
 
   const handleSearch = () => {
     if (!query) return;
     navigate(`/results?q=${query}&lang=${lang}`);
   };
+
+  //for ux i want the search bar to be empty when somebody goes back/refreshes
+  useEffect(() => {
+    setQuery("");
+    setLang("en");
+    setCountry("us");
+    setFrom("");
+    setTo("");
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-black">

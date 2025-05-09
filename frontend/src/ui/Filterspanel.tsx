@@ -10,6 +10,7 @@ import {
   SelectContent,
   SelectItem,
 } from "../components/ui/select";
+import { SheetClose } from "../components/ui/sheet";
 
 type FiltersPanelProps = {
   onClose: () => void;
@@ -118,13 +119,26 @@ export default function FiltersPanel({ onClose }: FiltersPanelProps) {
       </div>
 
       <div className="mt-4 flex justify-end gap-2">
-        <Button variant="ghost" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button variant="outline" onClick={handleClear}>
-          Clear Filters
-        </Button>
-        <Button onClick={handleApply}>Apply Filters</Button>
+        <SheetClose asChild>
+          <Button variant="ghost" onClick={onClose} className="cursor-pointer">
+            Cancel
+          </Button>
+        </SheetClose>
+        <SheetClose asChild>
+          <Button
+            variant="outline"
+            onClick={handleClear}
+            className="cursor-pointer"
+          >
+            Clear Filters
+          </Button>
+        </SheetClose>
+
+        <SheetClose asChild>
+          <Button onClick={handleApply} className="cursor-pointer">
+            Apply Filters
+          </Button>
+        </SheetClose>
       </div>
     </div>
   );

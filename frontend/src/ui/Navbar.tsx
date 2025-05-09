@@ -26,7 +26,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="z-50 w-full px-2 py-4 flex items-center justify-between bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800">
+    <nav className="z-100 relative w-full px-2 py-4 flex items-center justify-between bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800">
       <div
         className="text-xl font-bold cursor-pointer"
         onClick={() => navigate("/")}
@@ -60,7 +60,9 @@ export default function Navbar() {
               className="top-[70px] max-h-[calc(100vh-70px)] overflow-y-auto"
             >
               <SheetHeader>
-                <SheetTitle>Filter Results</SheetTitle>
+                <SheetTitle className="cursor-pointer">
+                  Filter Results
+                </SheetTitle>
               </SheetHeader>
               <FiltersPanel onClose={() => {}} />
             </SheetContent>
