@@ -5,6 +5,8 @@ import { useSearchStore } from "../store/search_store";
 import { ModeToggle } from "./ModeToggle";
 import FiltersPanel from "./Filterspanel";
 
+import { Search, Filter } from "lucide-react";
+
 import {
   Sheet,
   SheetTrigger,
@@ -30,10 +32,11 @@ export default function Navbar() {
   return (
     <nav className="z-100 relative w-full px-2 py-4 flex items-center justify-between bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800">
       <div
-        className="text-xl font-bold cursor-pointer"
+        className="text-lg font-bold cursor-pointer md:text-2xl"
         onClick={() => navigate("/")}
       >
-        InfoSearch
+        <span className="inline md:hidden">IS</span>
+        <span className="hidden md:inline">InfoSearch</span>
       </div>
 
       {isResultsPage && (
@@ -50,12 +53,20 @@ export default function Navbar() {
             }}
             className="text-lg"
           />
-          <Button onClick={handleSearch} className="cursor-pointer">
-            Search
+          <Button
+            onClick={handleSearch}
+            className="cursor-pointer p-2 sm:px-4"
+            aria-label="Search"
+          >
+            <Search className="h-5 w-5 sm:hidden" />
+            <span className="hidden sm:inline">Search</span>
           </Button>
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline">Filters</Button>
+              <Button variant="outline" className="p-2 sm:px-4" aria-label="Filters">
+                <Filter className="h-5 w-5 sm:hidden" />
+                <span className="hidden sm:inline">Filters</span>
+              </Button>
             </SheetTrigger>
             <SheetContent
               side="top"
