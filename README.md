@@ -1,14 +1,13 @@
 # 📰 InfoSearch – News Search Engine built with React & Flask
 
-A fullstack news search engine built using **Flask** (Python backend) and **React** with **Vite + TypeScript** (frontend). It integrates with the [GNews API](https://gnews.io/) to fetch relevant news articles from the last month based on user queries.
+A fullstack news search engine built using **Flask** (Python backend) and **React** with **Vite + TypeScript** (frontend). It integrates with the [GNews API](https://gnews.io/) to fetch relevant news articles based on user queries.
 
 ## Features
 
 - **Search bar** to query global news
 - **Language selection** ( English, German, French)
 - **Country filter**
-- **Date range filters**
-- **Thumbnail previews** per article
+- **Date range filter**
 - **Dark mode theme toggle**
 - Skeleton loaders & mobile-responsive UI
 
@@ -18,10 +17,10 @@ A fullstack news search engine built using **Flask** (Python backend) and **Reac
 
 | Layer    | Stack                         |
 | -------- | ----------------------------- |
-| Frontend | React + TypeScript (Vite)     |
-| Backend  | Python + Flask + Flask-CORS   |
+| Frontend | React & TypeScript (Vite)     |
+| Backend  | Python & Flask                |
 | News API | [GNews.io](https://gnews.io/) |
-| Styling  | Tailwind CSS + ShadCN UI      |
+| Styling  | Tailwind CSS                  |
 | State    | Zustand                       |
 
 ---
@@ -40,7 +39,7 @@ cd "to the directory you saved it"
 ```bash
 cd backend
 python -m venv venv
-source venv/bin/activate  # on Windows: venv\Scripts\activate
+source venv/bin/activate  # windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
