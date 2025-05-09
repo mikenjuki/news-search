@@ -6,6 +6,8 @@ type SearchState = {
   country: string;
   from: string; //
   to: string;
+  committedQuery: string;
+  setCommittedQuery: (query: string) => void;
   setQuery: (query: string) => void;
   setLang: (lang: string) => void;
   setCountry: (country: string) => void;
@@ -19,7 +21,9 @@ export const useSearchStore = create<SearchState>((set) => ({
   country: 'us',
   from: "",
   to: "",
-  setQuery: (query) => set({ query }),
+  committedQuery: "",
+  setQuery: (q: string) => set({ query: q }),
+  setCommittedQuery: (q: string) => set({ committedQuery: q }),
   setLang: (lang) => set({ lang }),
   setCountry: (country) => set({ country }),
   setFrom: (val) => set({ from: val }),

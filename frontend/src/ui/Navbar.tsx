@@ -18,10 +18,12 @@ export default function Navbar() {
   const navigate = useNavigate();
   const isResultsPage = location.pathname === "/results";
 
-  const { query, setQuery, lang, country } = useSearchStore();
+  const { query, setQuery, lang, country, setCommittedQuery } =
+    useSearchStore();
 
   const handleSearch = () => {
-    if (!query) return;
+    if (!query.trim()) return;
+    setCommittedQuery(query); // i added this to prevent calling the ap as a new search is entered
     navigate(`/results?q=${query}&lang=${lang}&country=${country}`);
   };
 
