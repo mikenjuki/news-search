@@ -66,7 +66,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="w-full bg-black flex items-center justify-center text-white py-4">
+      <footer className="w-full bg-black flex items-center justify-center text-white py-4 border-t dark:border-gray-800">
         <p>
           Powered by{" "}
           <a

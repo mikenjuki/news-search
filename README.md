@@ -1,18 +1,16 @@
-# 📰 InfoSearch – News Search Engine (React + Flask)
+# 📰 InfoSearch – News Search Engine built with React & Flask
 
 A fullstack news search engine built using **Flask** (Python backend) and **React** with **Vite + TypeScript** (frontend). It integrates with the [GNews API](https://gnews.io/) to fetch relevant news articles from the last month based on user queries.
 
 ## Features
 
 - **Search bar** to query global news
-- **Language selection** (e.g. English, German, French)
+- **Language selection** ( English, German, French)
 - **Country filter**
 - **Date range filters**
 - **Thumbnail previews** per article
-- **Clickable links** (visited links turn purple)
-- **Dark mode + Retro theme toggle**
+- **Dark mode theme toggle**
 - Skeleton loaders & mobile-responsive UI
-- API key is hidden from public access
 
 ---
 
