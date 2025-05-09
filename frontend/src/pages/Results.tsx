@@ -4,20 +4,31 @@ import Navbar from "../ui/Navbar";
 import NoResults from "../assets/no_results.svg";
 import ResultItem from "../ui/ResultItem";
 import { useFetchNews } from "../hooks/useFetchNews";
+import { useEffect, useState } from "react";
+import { SlowLoadingMessage } from "../ui/SlowLoadingMessage";
 
 export default function Results() {
   const { results, loading, total } = useFetchNews();
 
+  //Render has a 50s cold start if there's a 15 min downtime so this provides some ux message for the user
+  const [isSlowLoading, setIsSlowLoading] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setIsSlowLoading(true), 3000); // after 5s, show special message
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <>
-      <header className="">
+      <header>
         <Navbar />
       </header>
 
       <main className="min-h-[70vh] px-4 py-6 bg-white dark:bg-black text-black dark:text-white">
         {/* Results section */}
         {loading ? (
-          <div className="space-y-4 max-w-3xl mx-auto">
+          <div className="space-y-4 max-w-3xl mx-auto text-center">
+            {isSlowLoading && <SlowLoadingMessage />}
+
             {[...Array(5)].map((_, i) => (
               <div
                 key={i}
