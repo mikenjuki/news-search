@@ -14,36 +14,39 @@ export default function ResultItem({
   source,
 }: ResultItemProps) {
   return (
-    <div className="flex gap-4 justify-between items-start border-b border-gray-200 dark:border-gray-700 pb-4">
-      {/* text content */}
-      <div className="flex-1">
+    <div className="flex flex-col sm:flex-row gap-4 border-b border-gray-200 dark:border-gray-700 pb-4">
+      {/* Text Content */}
+      <div className="flex-1 min-w-0">
         <a
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 visited:text-purple-700 font-medium hover:underline"
+          className="text-blue-600 visited:text-purple-700 font-medium hover:underline block"
         >
           {title}
         </a>
-        <p className="text-xs text-gray-500 truncate">
+
+        <p className="text-xs text-gray-500 break-all truncate">
           {url.length > 70 ? url.slice(0, 67).trim() + "..." : url}
         </p>
-        <p className="text-sm mt-1 text-gray-700 dark:text-gray-300">
+
+        <p className="text-sm mt-1 text-gray-700 dark:text-gray-300 line-clamp-2">
           {description.length > 120
             ? description.slice(0, 117).trim() + "..."
             : description}
         </p>
+
         <span className="inline-block mt-2 text-xs bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 px-2 py-0.5 rounded">
           {source}
         </span>
       </div>
 
-      {/* image */}
+      {/* Image */}
       {image && (
         <img
           src={image}
           alt="thumbnail"
-          className="w-24 h-24 object-cover rounded hidden sm:block"
+          className="hidden md:block w-20 h-20 sm:w-24 sm:h-24 object-cover rounded self-start shrink-0"
         />
       )}
     </div>
